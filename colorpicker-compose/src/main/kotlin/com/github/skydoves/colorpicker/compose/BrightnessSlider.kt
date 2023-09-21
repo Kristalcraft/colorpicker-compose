@@ -62,7 +62,7 @@ import kotlin.math.max
  * @param wheelColor [Color] of th wheel.
  * @param wheelPaint [Paint] to draw the wheel.
  * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
- * it will be selected on rightmost of slider if you give null value.
+ * it will be selected on center if you give null value.
  */
 @Composable
 public fun BrightnessSlider(
@@ -190,8 +190,8 @@ public fun BrightnessSlider(
                 if (wheelImageBitmap == null) {
                     val position = controller.brightness.value
                     val point = (bitmapSize.width * position).coerceIn(
-                        minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat(),
+                        minimumValue = wheelRadius.toPx(),
+                        maximumValue = bitmapSize.width.toFloat() - wheelRadius.toPx(),
                     )
                     canvas.drawCircle(
                         Offset(x = point, y = bitmapSize.height / 2f),
@@ -202,12 +202,12 @@ public fun BrightnessSlider(
                     val position = controller.brightness.value
                     val point = (bitmapSize.width * position).coerceIn(
                         minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat(),
+                        maximumValue = bitmapSize.width.toFloat() - wheelImageBitmap.width,
                     )
                     canvas.drawImage(
                         wheelImageBitmap,
                         Offset(
-                            x = point - (wheelImageBitmap.width / 2),
+                            x = point,
                             y = bitmapSize.height / 2f - wheelImageBitmap.height / 2,
                         ),
                         Paint(),
@@ -223,3 +223,4 @@ public fun BrightnessSlider(
         }
     }
 }
+

@@ -180,7 +180,7 @@ public fun HsvColorPicker(
             }
 
             val palette = controller.paletteBitmap
-            if (palette != null && initialColor != null && !isInitialized) {
+            if (palette != null && initialColor != null) {
                 val pickerRadius: Float = palette.width.coerceAtMost(palette.height) * 0.5f
                 if (pickerRadius > 0) {
                     isInitialized = true

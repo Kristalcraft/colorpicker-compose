@@ -16,6 +16,7 @@
 
 package com.github.skydoves.colorpicker.compose
 
+import android.util.Log
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
@@ -24,10 +25,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+
+
+
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
@@ -64,8 +65,8 @@ import androidx.compose.ui.unit.dp
  * @param tileOddColor Color of the odd tiles.
  * @param tileEvenColor Color of the even tiles.
  * @param tileSize DP size of tiles.
- * @param initialColor [Color] of the initial state. This property works for [HsvColorPicker] and
- * it will be selected on rightmost of slider if you give null value.
+
+
  */
 @Composable
 public fun AlphaSlider(
@@ -85,8 +86,8 @@ public fun AlphaSlider(
     tileOddColor: Color = defaultTileOddColor,
     tileEvenColor: Color = defaultTileEvenColor,
     tileSize: Dp = 12.dp,
-    initialColor: Color? = null,
-) {
+
+    ) {
     val density = LocalDensity.current
     var backgroundBitmap: ImageBitmap? = null
     var bitmapSize = IntSize(0, 0)
@@ -98,7 +99,7 @@ public fun AlphaSlider(
     val colorPaint: Paint = Paint().apply {
         color = controller.pureSelectedColor.value
     }
-    var isInitialized by remember { mutableStateOf(false) }
+
 
     SideEffect {
         controller.isAttachedAlphaSlider = true
@@ -144,6 +145,7 @@ public fun AlphaSlider(
             .pointerInput(Unit) {
                 detectHorizontalDragGestures { change, _ ->
                     val wheelPoint = change.position.x
+                    Log.d("position","${wheelPoint}")
                     val position: Float = if (wheelImageBitmap == null) {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
@@ -158,6 +160,7 @@ public fun AlphaSlider(
                         point / bitmapSize.width
                     }
                     controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
+                    Log.d("position","alpha:${controller.alpha}")
                 }
             }
             .pointerInput(Unit) {
@@ -209,9 +212,10 @@ public fun AlphaSlider(
                 if (wheelImageBitmap == null) {
                     val position = controller.alpha.value
                     val point = (bitmapSize.width * position).coerceIn(
-                        minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat(),
+                        minimumValue = wheelRadius.toPx(),
+                        maximumValue = bitmapSize.width.toFloat() - wheelRadius.toPx(),
                     )
+                    Log.d("position","drawCircle:${point}")
                     canvas.drawCircle(
                         Offset(x = point, y = bitmapSize.height / 2f),
                         wheelRadius.toPx(),
@@ -221,22 +225,18 @@ public fun AlphaSlider(
                     val position = controller.alpha.value
                     val point = (bitmapSize.width * position).coerceIn(
                         minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat(),
+                        maximumValue = bitmapSize.width.toFloat() - wheelImageBitmap.width,
                     )
                     canvas.drawImage(
                         wheelImageBitmap,
                         Offset(
-                            x = point - (wheelImageBitmap.width / 2),
+                            x = point,
                             y = bitmapSize.height / 2f - wheelImageBitmap.height / 2,
                         ),
                         Paint(),
                     )
                 }
             }
-            if (initialColor != null && !isInitialized) {
-                isInitialized = true
-                controller.setAlpha(alpha = initialColor.alpha, fromUser = false)
-            }
         }
     }
-}
+

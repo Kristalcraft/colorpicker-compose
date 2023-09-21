@@ -232,14 +232,14 @@ public class ColorPickerController {
     }
 
     /** Combine the alpha value to the selected pure color. */
-    internal fun setAlpha(alpha: Float, fromUser: Boolean) {
+    public fun setAlpha(alpha: Float, fromUser: Boolean) {
         this.alpha.value = alpha
         _selectedColor.value = selectedColor.value.copy(alpha = alpha)
         notifyColorChanged(fromUser)
     }
 
     /** Combine the brightness value to the selected pure color. */
-    internal fun setBrightness(brightness: Float, fromUser: Boolean) {
+    public fun setBrightness(brightness: Float, fromUser: Boolean) {
         this.brightness.value = brightness
         val hsv = FloatArray(3)
         android.graphics.Color.colorToHSV(pureSelectedColor.value.toArgb(), hsv)
@@ -341,3 +341,5 @@ public class ColorPickerController {
         wheelBitmap = null
     }
 }
+
+
