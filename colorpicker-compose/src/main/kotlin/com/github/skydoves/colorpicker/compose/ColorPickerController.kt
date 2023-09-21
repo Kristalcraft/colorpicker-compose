@@ -21,6 +21,7 @@ import android.graphics.Matrix
 import android.graphics.PointF
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
@@ -189,10 +190,12 @@ public class ColorPickerController {
         enabled.value.takeIf { it } ?: return
         val snapPoint = PointMapper.getColorPoint(this, PointF(x, y))
         val extractedColor = if (isHsvColorPalette) {
+
             extractPixelHsvColor(snapPoint.x, snapPoint.y)
         } else {
             extractPixelColor(snapPoint.x, snapPoint.y)
         }
+        Log.d("opacityTest","selectByCoordinate extract $extractedColor")
         if (extractedColor != Color.Transparent) {
             // set the extracted color.
             pureSelectedColor.value = extractedColor
@@ -203,6 +206,7 @@ public class ColorPickerController {
             if (fromUser && debounceDuration != 0L) {
                 notifyColorChangedWithDebounce(fromUser)
             } else {
+                Log.d("opacityTest","selectByCoordinate notifyColorChanged ${_selectedColor.value}")
                 notifyColorChanged(fromUser)
             }
         }
@@ -221,6 +225,7 @@ public class ColorPickerController {
     /** Notify color changes to the color picker and other subcomponents. */
     private fun notifyColorChanged(fromUser: Boolean) {
         val color = _selectedColor.value
+        Log.d("opacityTest","notifyColorChanged ${color}")
         colorChangedTick.value = ColorEnvelope(color, color.hexCode, fromUser)
     }
 
