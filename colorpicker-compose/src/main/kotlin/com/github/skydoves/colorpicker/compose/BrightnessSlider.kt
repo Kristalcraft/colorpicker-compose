@@ -45,6 +45,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlin.math.max
@@ -202,15 +203,16 @@ public fun BrightnessSlider(
                     val position = controller.brightness.value
                     val point = (bitmapSize.width * position).coerceIn(
                         minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat() - wheelImageBitmap.width,
+                        maximumValue = bitmapSize.width.toFloat() - bitmapSize.height,
                     )
-                    canvas.drawImage(
-                        wheelImageBitmap,
-                        Offset(
-                            x = point,
-                            y = bitmapSize.height / 2f - wheelImageBitmap.height / 2,
+                    canvas.drawImageRect(
+                        image = wheelImageBitmap,
+                        dstOffset = IntOffset(
+                            x = point.toInt(),
+                            y = 0,
                         ),
-                        Paint(),
+                        dstSize = IntSize( bitmapSize.height, bitmapSize.height),
+                        paint = Paint(),
                     )
                 }
                 if (initialColor != null && !isInitialized) {

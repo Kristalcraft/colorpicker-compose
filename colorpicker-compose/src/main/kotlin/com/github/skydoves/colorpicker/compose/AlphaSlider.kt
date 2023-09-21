@@ -221,15 +221,16 @@ public fun AlphaSlider(
                     val position = controller.alpha.value
                     val point = (bitmapSize.width * position).coerceIn(
                         minimumValue = 0f,
-                        maximumValue = bitmapSize.width.toFloat() - wheelImageBitmap.width,
+                        maximumValue = bitmapSize.width.toFloat() - bitmapSize.height,
                     )
-                    canvas.drawImage(
-                        wheelImageBitmap,
-                        Offset(
-                            x = point,
-                            y = bitmapSize.height / 2f - wheelImageBitmap.height / 2,
+                    canvas.drawImageRect(
+                        image = wheelImageBitmap,
+                        dstOffset = IntOffset(
+                            x = point.toInt(),
+                            y = 0,
                         ),
-                        Paint(),
+                        dstSize = IntSize( bitmapSize.height, bitmapSize.height),
+                        paint = Paint(),
                     )
                 }
             }
