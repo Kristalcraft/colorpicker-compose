@@ -5,9 +5,18 @@ import com.github.skydoves.colorpicker.compose.Versions
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
+    namespace = 'com.skydoves.colorpickercompose'
+
+    defaultConfig {
+        aarMetadata {
+            minCompileSdk = 27
+        }
+    }
+
     compileSdkVersion Configuration.compileSdk
     defaultConfig {
         applicationId "com.github.skydoves.colorpickercomposedemo"
