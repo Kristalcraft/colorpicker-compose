@@ -7,15 +7,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.dokka'
     id 'binary-compatibility-validator'
+    id 'maven-publish'
 }
-
-ext {
-    PUBLISH_GROUP_ID = Configuration.artifactGroup
-    PUBLISH_ARTIFACT_ID = 'colorpicker-compose'
-    PUBLISH_VERSION = rootVersionName
-}
-
-apply from: "${rootDir}/scripts/publish-module.gradle"
 
 android {
     compileSdkVersion Configuration.compileSdk
@@ -64,4 +57,14 @@ dependencies {
     implementation Dependencies.composeTooling
 }
 
-apply from: "$rootDir/spotless.gradle"
+afterEvaluate {
+    android.libraryVariants.each { variant ->
+        publishing.publications.create(variant.name, MavenPublication){
+            from components.findByName(variant.name)
+
+            groupId = 'com.kristalcraft'
+            artifactId = 'colorpicker-compose'
+            version = '1.0.2'
+        }
+    }
+}
