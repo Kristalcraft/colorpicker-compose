@@ -82,7 +82,7 @@ public fun HsvColorPicker(
             bitmap?.let { controller.setPaletteImageBitmap(it) }
             controller.setWheelImageBitmap(wheelImageBitmap)
             controller.colorChangedTick.mapNotNull { it }.collect {
-                Log.d("opacityTest","disposable effect ${it.color}")
+                //Log.d("opacityTest","disposable effect ${it.color}")
                 if (isInitialized) {
                     onColorChanged?.invoke(it)
                 }
@@ -185,7 +185,7 @@ public fun HsvColorPicker(
 
             val palette = controller.paletteBitmap
             if (palette != null && initialColor != null && !isInitialized) {
-                Log.d("opacityTest","ColorPicker initialization")
+                //Log.d("opacityTest","ColorPicker initialization")
                 val pickerRadius: Float = palette.width.coerceAtMost(palette.height) * 0.5f
                 if (pickerRadius > 0) {
                     isInitialized = true

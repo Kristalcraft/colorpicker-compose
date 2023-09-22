@@ -142,7 +142,7 @@ public fun AlphaSlider(
             .pointerInput(Unit) {
                 detectHorizontalDragGestures { change, _ ->
                     val wheelPoint = change.position.x
-                    Log.d("position","${wheelPoint}")
+                    //Log.d("position","${wheelPoint}")
                     val position: Float = if (wheelImageBitmap == null) {
                         val point = wheelPoint.coerceIn(
                             minimumValue = 0f,
@@ -157,7 +157,7 @@ public fun AlphaSlider(
                         point / bitmapSize.width
                     }
                     controller.setAlpha(position.coerceIn(0f, 1f), fromUser = true)
-                    Log.d("position","alpha:${controller.alpha}")
+                    //Log.d("position","alpha:${controller.alpha}")
                 }
             }
             .pointerInput(Unit) {
@@ -212,7 +212,7 @@ public fun AlphaSlider(
                         minimumValue = wheelRadius.toPx(),
                         maximumValue = bitmapSize.width.toFloat() - wheelRadius.toPx(),
                     )
-                    Log.d("position","drawCircle:${point}")
+                    //Log.d("position","drawCircle:${point}")
                     canvas.drawCircle(
                         Offset(x = point, y = bitmapSize.height / 2f),
                         wheelRadius.toPx(),

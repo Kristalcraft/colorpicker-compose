@@ -195,7 +195,7 @@ public class ColorPickerController {
         } else {
             extractPixelColor(snapPoint.x, snapPoint.y)
         }
-        Log.d("opacityTest","selectByCoordinate extract $extractedColor")
+        //Log.d("opacityTest","selectByCoordinate extract $extractedColor")
         if (extractedColor != Color.Transparent) {
             // set the extracted color.
             pureSelectedColor.value = extractedColor
@@ -206,7 +206,7 @@ public class ColorPickerController {
             if (fromUser && debounceDuration != 0L) {
                 notifyColorChangedWithDebounce(fromUser)
             } else {
-                Log.d("opacityTest","selectByCoordinate notifyColorChanged ${_selectedColor.value}")
+                //Log.d("opacityTest","selectByCoordinate notifyColorChanged ${_selectedColor.value}")
                 notifyColorChanged(fromUser)
             }
         }
@@ -225,7 +225,7 @@ public class ColorPickerController {
     /** Notify color changes to the color picker and other subcomponents. */
     private fun notifyColorChanged(fromUser: Boolean) {
         val color = _selectedColor.value
-        Log.d("opacityTest","notifyColorChanged ${color}")
+        //Log.d("opacityTest","notifyColorChanged ${color}")
         colorChangedTick.value = ColorEnvelope(color, color.hexCode, fromUser)
     }
 
